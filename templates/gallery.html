@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Пейзажи Марса</h1>
+<div id="demo" class="carousel slide" data-ride="carousel" style="width: 800px;">
+    <ul class="carousel-indicators">
+        {% for i in range(n) %}
+            {% if loop.first %}
+                <li data-target="#demo" data-slide-to="{{i}}" class="active"></li>
+            {% else %}
+                <li data-target="#demo" data-slide-to="{{i}}"></li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+    <div class="carousel-inner">
+    {% for filename in filenames %}
+        {% if loop.first %}
+            <div class="carousel-item active">
+            <img src="/static/img/{{filename}}" width="800">
+            </div>
+        {% else %}
+            <div class="carousel-item">
+            <img src="/static/img/{{filename}}" width="800">
+            </div>
+        {% endif %}
+    {% endfor %}
+    </div>
+</div>
+<form class="login_form" method="post" enctype="multipart/form-data">
+    <div class="form-group">
+        <label for="photo">Добавить картинку</label><br>
+        <input type="file" class="form-control-file" id="photo" name="file">
+    </div>
+    <button type="submit" class="btn btn-primary">Отправить</button>
+</form>
+{% endblock %}

@@ -1,12 +1,17 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, redirect
 import os
 
 app = Flask(__name__)
-img = None
 
-@app.route('/table_param/<sex>/<int:age>')
-def table(sex, age):
-    return render_template('table.html', sex=sex, age=age)
+@app.route('/gallery', methods=['POST', 'GET'])
+def gallery():
+    if request.method == 'GET':
+        files = list(os.listdir('static/img'))
+        return render_template('gallery.html', n=len(files), filenames=files)
+    elif request.method == 'POST':
+        f = request.files['file']
+        f.save(f'static/img/{f.filename}')
+        return redirect('/gallery')
 
 
 if __name__ == '__main__':

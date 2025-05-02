@@ -1,17 +1,14 @@
-from flask import Flask, render_template, request, redirect
-import os
+from json import load
+
+from flask import Flask, render_template
+from random import choice
 
 app = Flask(__name__)
 
-@app.route('/gallery', methods=['POST', 'GET'])
-def gallery():
-    if request.method == 'GET':
-        files = list(os.listdir('static/img'))
-        return render_template('gallery.html', n=len(files), filenames=files)
-    elif request.method == 'POST':
-        f = request.files['file']
-        f.save(f'static/img/{f.filename}')
-        return redirect('/gallery')
+@app.route('/member')
+def member():
+    with open('templates/members.json', 'r', encoding="UTF8") as f:
+        return render_template('member.html', member=choice(load(f)))
 
 
 if __name__ == '__main__':

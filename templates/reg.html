@@ -5,9 +5,9 @@
     <h1>Register Form</h1>
     {{ form.hidden_tag() }}
     <p>
-        {{ form.login.label }}<br>
-        {{ form.login(class="form-control") }}<br>
-        {% for error in form.login.errors %}
+        {{ form.email.label }}<br>
+        {{ form.email(class="form-control", type="email") }}<br>
+        {% for error in form.email.errors %}
     <div class="alert alert-danger" role="alert">
         {{ error }}
     </div>
@@ -33,7 +33,7 @@
     </p>
     <p>
         {{ form.surname.label }}<br>
-        {{ form.surname(class="form-control", type="password") }}<br>
+        {{ form.surname(class="form-control") }}<br>
         {% for error in form.surname.errors %}
     <div class="alert alert-danger" role="alert">
         {{ error }}
@@ -42,7 +42,7 @@
     </p>
     <p>
         {{ form.name.label }}<br>
-        {{ form.name(class="form-control", type="password") }}<br>
+        {{ form.name(class="form-control") }}<br>
         {% for error in form.name.errors %}
     <div class="alert alert-danger" role="alert">
         {{ error }}
@@ -51,7 +51,7 @@
     </p>
     <p>
         {{ form.age.label }}<br>
-        {{ form.age(class="form-control", type="password") }}<br>
+        {{ form.age(class="form-control") }}<br>
         {% for error in form.age.errors %}
     <div class="alert alert-danger" role="alert">
         {{ error }}
@@ -60,7 +60,7 @@
     </p>
     <p>
         {{ form.position.label }}<br>
-        {{ form.position(class="form-control", type="password") }}<br>
+        {{ form.position(class="form-control") }}<br>
         {% for error in form.position.errors %}
     <div class="alert alert-danger" role="alert">
         {{ error }}
@@ -69,7 +69,7 @@
     </p>
     <p>
         {{ form.speciality.label }}<br>
-        {{ form.speciality(class="form-control", type="password") }}<br>
+        {{ form.speciality(class="form-control") }}<br>
         {% for error in form.speciality.errors %}
     <div class="alert alert-danger" role="alert">
         {{ error }}
@@ -78,7 +78,7 @@
     </p>
     <p>
         {{ form.address.label }}<br>
-        {{ form.address(class="form-control", type="password") }}<br>
+        {{ form.address(class="form-control") }}<br>
         {% for error in form.address.errors %}
     <div class="alert alert-danger" role="alert">
         {{ error }}

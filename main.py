@@ -83,6 +83,7 @@ def add_job():
         job.job = form.job.data
         job.work_size = form.work_size.data
         job.collaborators = form.collaborators.data
+        job.category_id = form.category_id.data
         job.is_finished = form.is_finished.data
         db_sess.add(job)
         db_sess.commit()
@@ -103,6 +104,7 @@ def edit_job(jobs_id):
                 job.job = form.job.data
                 job.work_size = form.work_size.data
                 job.collaborators = form.collaborators.data
+                job.category_id = form.category_id.data
                 job.is_finished = form.is_finished.data
                 db_sess.commit()
             return redirect('/')

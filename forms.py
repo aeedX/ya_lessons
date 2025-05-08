@@ -8,6 +8,7 @@ class JobForm(FlaskForm):
     job = StringField('Job Title', validators=[DataRequired()])
     work_size = IntegerField('Work Size', validators=[DataRequired()])
     collaborators = StringField('Collaborators', validators=[DataRequired()])
+    category_id = IntegerField('Category id', validators=[DataRequired()])
     is_finished = BooleanField('is job finished?',)
     submit = SubmitField('Submit')
 
@@ -17,6 +18,11 @@ class DepartmentForm(FlaskForm):
     chief = IntegerField('Chief id', validators=[DataRequired()])
     members = StringField('Collaborators', validators=[DataRequired()])
     email = StringField('email', validators=[DataRequired()])
+    submit = SubmitField('Submit')
+
+
+class CategoryForm(FlaskForm):
+    name = StringField('Category name', validators=[DataRequired()])
     submit = SubmitField('Submit')
 
 

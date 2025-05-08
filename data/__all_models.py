@@ -35,11 +35,13 @@ class Jobs(SqlAlchemyBase):
     job = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     work_size = sqlalchemy.Column(sqlalchemy.Integer)
     collaborators = sqlalchemy.Column(sqlalchemy.String, nullable=True)
+    category_id = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey("categories.id"))
     start_date = sqlalchemy.Column(sqlalchemy.DateTime, default=dt.datetime.now)
     end_date = sqlalchemy.Column(sqlalchemy.DateTime, default=dt.datetime.now)
     is_finished = sqlalchemy.Column(sqlalchemy.Boolean)
 
     user = orm.relationship('User')
+    category = orm.relationship('Category')
 
 
 class Department(SqlAlchemyBase):
@@ -52,3 +54,10 @@ class Department(SqlAlchemyBase):
     email = sqlalchemy.Column(sqlalchemy.String, nullable=True)
 
     user = orm.relationship('User')
+
+
+class Category(SqlAlchemyBase):
+    __tablename__ = 'categories'
+
+    id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True, autoincrement=True)
+    name = sqlalchemy.Column(sqlalchemy.String, nullable=True)

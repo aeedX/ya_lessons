@@ -7,13 +7,14 @@
 <table border="0" width="80%">
     {% for work in works %}
         <tr>
-            <td colspan="5"><h4>Action # {{work.id}}</h4></td>
+            <td colspan="6"><h4>Action # {{work.id}}</h4></td>
         </tr>
         <tr bgcolor="#dddddd">
             <td>Title of activity</td>
             <td>Team leader</td>
             <td>Duration</td>
             <td>List of collaborators</td>
+            <td>Hazard category</td>
             <td>Is finished</td>
         </tr>
         <tr bgcolor="#eeeeff">
@@ -21,6 +22,7 @@
             <td>{{work.user.surname}} {{work.user.name}}</td>
             <td>{{work.work_size}} hours</td>
             <td>{{work.collaborators}}</td>
+            <td>{{work.category.name}}</td>
             {% if work.is_finished %}
                 <td bgcolor="#eeffee">is finished</td>
             {% else %}
@@ -28,7 +30,7 @@
             {% endif %}
         </tr>
         <tr>
-            <td colspan="5">
+            <td colspan="6">
                 {% if current_user.id == work.team_leader or current_user.id == 1 %}
                     <a type="button" class="btn btn-warning" href="/editjob/{{work.id}}">Edit job</a>
                     <a type="button" class="btn btn-danger" href="/deljob/{{work.id}}">Delete job</a>

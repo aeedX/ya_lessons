@@ -2,6 +2,7 @@
 
 {% block content %}
 <h3 align="center">Works Log</h3>
+<a type="button" class="btn btn-secondary" href="/addjob">Add job</a>
 <table border="0" width="80%">
     {% for work in works %}
         <tr>
@@ -20,10 +21,18 @@
             <td>{{work.work_size}} hours</td>
             <td>{{work.collaborators}}</td>
             {% if work.is_finished %}
-                <td bgcolor="#ffeeff">is not finished</td>
-            {% else %}
                 <td bgcolor="#eeffee">is finished</td>
+            {% else %}
+                <td bgcolor="#ffeeff">is not finished</td>
             {% endif %}
+        </tr>
+        <tr>
+            <td colspan="5">
+                {% if current_user.id == work.team_leader or current_user.id == 1 %}
+                    <a type="button" class="btn btn-warning" href="/editjob/{{work.id}}">Edit job</a>
+                    <a type="button" class="btn btn-danger" href="/deljob/{{work.id}}">Delete job</a>
+                {% endif %}
+            </td>
         </tr>
     {% endfor %}
 </table>

@@ -83,6 +83,39 @@ def add_job():
     return render_template('addjob.html', title='Adding a Job', form=form, current_user=current_user)
 
 
+@app.route('/editjob/<int:jobs_id>', methods=['GET', 'POST'])
+@login_required
+def edit_job(jobs_id):
+    form = JobForm()
+    if form.validate_on_submit():
+        if form.team_leader.data == current_user.id or current_user.id == 1:
+            db_sess = db_session.create_session()
+            job = db_sess.query(Jobs).filter(Jobs.id == jobs_id).first()
+            if job:
+                job.team_leader = form.team_leader.data
+                job.job = form.job.data
+                job.work_size = form.work_size.data
+                job.collaborators = form.collaborators.data
+                job.is_finished = form.is_finished.data
+                db_sess.commit()
+            return redirect('/')
+        else:
+            return render_template('addjob.html', message="нет доступа",
+                                   title='Edit a Job', form=form, current_user=current_user)
+    return render_template('addjob.html', title='Edit a Job', form=form, current_user=current_user)
+
+
+@app.route('/deljob/<int:jobs_id>', methods=['GET', 'POST'])
+@login_required
+def del_job(jobs_id):
+    db_sess = db_session.create_session()
+    job = db_sess.query(Jobs).filter(Jobs.id == jobs_id).first()
+    if job and (job.team_leader == current_user.id or current_user.id == 1):
+        db_sess.delete(job)
+        db_sess.commit()
+    return redirect('/')
+
+
 if __name__ == '__main__':
     db_session.global_init("db/data.db")
     app.run()

@@ -24,6 +24,13 @@ def works():
     return render_template('works.html', works=works, current_user=current_user)
 
 
+@app.route('/departments')
+def departments():
+    db_sess = db_session.create_session()
+    departments = db_sess.query(Department)
+    return render_template('departments.html', departments=departments, current_user=current_user)
+
+
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegForm()
@@ -114,6 +121,54 @@ def del_job(jobs_id):
         db_sess.delete(job)
         db_sess.commit()
     return redirect('/')
+
+
+@app.route('/adddepartment', methods=['GET', 'POST'])
+def add_department():
+    form = DepartmentForm()
+    if form.validate_on_submit():
+        db_sess = db_session.create_session()
+        department = Department()
+        department.chief = form.chief.data
+        department.title = form.title.data
+        department.email = form.email.data
+        department.members = form.members.data
+        db_sess.add(department)
+        db_sess.commit()
+        return redirect('/departments')
+    return render_template('adddepartment.html', title='Adding a Department', form=form, current_user=current_user)
+
+
+@app.route('/editdepartment/<int:department_id>', methods=['GET', 'POST'])
+@login_required
+def edit_department(department_id):
+    form = DepartmentForm()
+    if form.validate_on_submit():
+        if form.chief.data == current_user.id or current_user.id == 1:
+            db_sess = db_session.create_session()
+            department = db_sess.query(Department).filter(Department.id == department_id).first()
+            if department:
+                department.chief = form.chief.data
+                department.title = form.title.data
+                department.email = form.email.data
+                department.members = form.members.dataa
+                db_sess.commit()
+            return redirect('/departments')
+        else:
+            return render_template('adddepartment.html', message="нет доступа",
+                                   title='Edit a Department', form=form, current_user=current_user)
+    return render_template('adddepartment.html', title='Edit a Department', form=form, current_user=current_user)
+
+
+@app.route('/deldepartment/<int:department_id>', methods=['GET', 'POST'])
+@login_required
+def del_department(department_id):
+    db_sess = db_session.create_session()
+    department = db_sess.query(Department).filter(Department.id == department_id).first()
+    if department and (department.chief == current_user.id or current_user.id == 1):
+        db_sess.delete(department)
+        db_sess.commit()
+    return redirect('/department')
 
 
 if __name__ == '__main__':

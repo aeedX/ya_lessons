@@ -12,8 +12,15 @@ class JobForm(FlaskForm):
     submit = SubmitField('Submit')
 
 
-class RegForm(FlaskForm):
+class DepartmentForm(FlaskForm):
+    title = StringField('Department Title', validators=[DataRequired()])
+    chief = IntegerField('Chief id', validators=[DataRequired()])
+    members = StringField('Collaborators', validators=[DataRequired()])
     email = StringField('email', validators=[DataRequired()])
+    submit = SubmitField('Submit')
+
+
+class RegForm(FlaskForm):
     password = PasswordField('Password', validators=[DataRequired()])
     password_confirm = PasswordField('Repeat password', validators=[DataRequired()])
     surname = StringField('Surname', validators=[DataRequired()])

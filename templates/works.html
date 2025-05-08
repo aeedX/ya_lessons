@@ -3,10 +3,11 @@
 {% block content %}
 <h3 align="center">Works Log</h3>
 <a type="button" class="btn btn-secondary" href="/addjob">Add job</a>
+<a type="button" class="btn btn-secondary" href="/departments">Go to Departments</a>
 <table border="0" width="80%">
     {% for work in works %}
         <tr>
-            <td colspan="5"><h4>Action # {{loop.index}}</h4></td>
+            <td colspan="5"><h4>Action # {{work.id}}</h4></td>
         </tr>
         <tr bgcolor="#dddddd">
             <td>Title of activity</td>

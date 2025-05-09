@@ -1,14 +1,24 @@
-from flask import Flask, render_template, redirect
+from flask import Flask, render_template, redirect, make_response, jsonify
+import requests
 from forms import *
 from data.__all_models import *
-import datetime as dt
-from data import db_session
+from data import db_session, users_api
 from flask_login import LoginManager, login_user, current_user, login_required, logout_user
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
 login_manager = LoginManager()
 login_manager.init_app(app)
+
+
+@app.errorhandler(404)
+def not_found(error):
+    return make_response(jsonify({'error': 'Not found'}), 404)
+
+
+@app.errorhandler(400)
+def bad_request(_):
+    return make_response(jsonify({'error': 'Bad Request'}), 400)
 
 
 @login_manager.user_loader
@@ -173,6 +183,16 @@ def del_department(department_id):
     return redirect('/department')
 
 
+@app.route('/users_show/<int:user_id>')
+def users_show(user_id):
+    db_sess = db_session.create_session()
+    user = requests.get(f'http://localhost:5000/api/users/{user_id}').json()
+    pos = requests.get(f'http://geocode-maps.yandex.ru/1.x/?geocode={user.city_from}&format=json&apikey=8013b162-6b42-4997-9691-77b7074026e0').json()['response']['GeoObjectCollection']['featureMember'][0]['GeoObject']['Point']['pos'].replace(' ', ',')
+    img = f"https://static-maps.yandex.ru/v1?ll={pos}&z=12&apikey=f3a0fe3a-b07e-4840-a1da-06f18b2ddf13"
+    return render_template('users_show.html', user=user, img=img, current_user=current_user)
+
+
 if __name__ == '__main__':
     db_session.global_init("db/data.db")
+    app.register_blueprint(users_api.blueprint)
     app.run()

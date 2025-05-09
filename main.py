@@ -2,7 +2,8 @@ from flask import Flask, render_template, redirect, make_response, jsonify
 import requests
 from forms import *
 from data.__all_models import *
-from data import db_session, users_resource
+from data import db_session
+import users_resource, jobs_resource
 from flask_login import LoginManager, login_user, current_user, login_required, logout_user
 
 app = Flask(__name__)
@@ -196,4 +197,6 @@ if __name__ == '__main__':
     db_session.global_init("db/data.db")
     api.add_resource(users_resource.UsersListResource, '/api/v2/users') 
     api.add_resource(users_resource.UsersResource, '/api/v2/users/<int:user_id>')
+    api.add_resource(jobs_resource.JobsListResource, '/api/v2/jobs') 
+    api.add_resource(jobs_resource.JobsResource, '/api/v2/jobs/<int:job_id>')
     app.run()
